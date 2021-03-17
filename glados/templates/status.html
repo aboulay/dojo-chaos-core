@@ -1,0 +1,12 @@
+<html>
+    <body>
+        <pre>
+System Status:
+    > Main Core: OK{% for status in core_status %}{% if status[1] %}
+    > {{ status[0] }} Core: OK
+{% else %}
+    > {{ status[0] }} Core: FAIL
+{% endif %}{% endfor %}
+        </pre>
+    </body>
+</html>
