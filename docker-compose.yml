@@ -1,0 +1,71 @@
+version: '3'
+
+services:
+  glados:
+    image: test-glados:v0.0.1
+    expose:
+      - '5000'
+    ports:
+      - "5000:5000"
+    environment:
+      PORT: 5000
+      ANGER_CONNECTOR: "anger:4400"
+      MORALITY_CONNECTOR: "morality:4401"
+      CURIOSITY_CONNECTOR: "curiosity:4402"
+      INTELLIGENCE_CONNECTOR: "intelligence:4403"
+    networks:
+      - aperture
+  anger:
+    image: test-external_core:v0.0.1
+    expose:
+      - '4400'
+    ports:
+      - "4400:4400"
+    environment:
+      PORT: 4400
+      CORE_TYPE: ANGER
+    networks:
+      - aperture
+  morality:
+    image: test-external_core:v0.0.1
+    expose:
+      - '4401'
+    ports:
+      - "4401:4401"
+    environment:
+      PORT: 4401
+      CORE_TYPE: MORALITY
+    networks:
+      - aperture
+  curiosity:
+    image: test-external_core:v0.0.1
+    expose:
+      - '4402'
+    ports:
+      - "4402:4402"
+    environment:
+      PORT: 4402
+      CORE_TYPE: CURIOSITY
+    networks:
+      - aperture
+  intelligence:
+    image: test-external_core:v0.0.1
+    expose:
+      - '4403'
+    ports:
+      - "4403:4403"
+    environment:
+      PORT: 4403
+      CORE_TYPE: INTELLIGENCE
+    networks:
+      - aperture
+  # debug:
+    # image: ubuntu
+    # entrypoint: /bin/sh -c 'while true; do sleep 2; echo "<...>"; done'
+    # networks:
+      # - aperture
+
+networks:
+  aperture:
+    driver: bridge
+    
