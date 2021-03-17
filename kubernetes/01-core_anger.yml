@@ -1,0 +1,63 @@
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: core-anger
+  namespace: core
+  labels:
+    app: core-anger
+    context: dojo-chaos
+    type: core
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: core-anger
+      context: dojo-chaos
+      type: core
+  template:
+    metadata:
+      labels:
+        app: core-anger
+        context: dojo-chaos
+        type: core
+    spec:
+      containers:
+      - name: core-anger
+        image: adbo/core:0.0.2
+        imagePullPolicy: Always
+        livenessProbe:
+          initialDelaySeconds: 10
+          periodSeconds: 5
+          httpGet:
+            path: /ping
+            port: 5000
+        ports:
+        - containerPort: 5000
+        env:
+        - name: "CORE_TYPE"
+          value: "ANGER"
+        - name: "PORT"
+          value: "5000"
+
+...
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: anger
+  namespace: core
+spec:
+  selector:
+    app: core-anger
+    context: dojo-chaos
+    type: core
+  ports:
+    - name: http
+      protocol: TCP
+      port: 80
+      targetPort: 5000
+
+...
